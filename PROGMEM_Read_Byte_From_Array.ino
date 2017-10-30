@@ -13,7 +13,6 @@
 //=================================================================//
 
 
-const size_t lenAlpha  = 27;
 const uint8_t alphabets[] PROGMEM = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
                                      'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
                                      'W', 'X', 'Y', 'Z', 0x00};
@@ -21,17 +20,18 @@ const uint8_t alphabets[] PROGMEM = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'
 uint8_t* alphaBuffer = new uint8_t; //a single char pointer
 
 void setup() {
-     Serial.begin(115200); Serial.println();
-     memcpy_P(alphaBuffer, alphabets, 1); //determine the address of the string
+  Serial.begin(115200);
+  Serial.println();
+  memcpy_P(alphaBuffer, alphabets, 1); //determine the address of const string on PROGMEM
  }
 
 int counter = 0;
-uint8_t* alphaBufferBackup = alphaBuffer; //take a bakcup of the const pointer
+uint8_t* alphaBufferBackup = alphaBuffer; //take a backup of the const pointer
 
 void loop() {
-  memcpy_P(alphaBuffer, alphabets + counter, 1); //read each byte by adding the counter value (alphabets++ won't work)
-  Serial.println((char)*alphaBuffer); //print the read byte as char
-  counter++;
+  memcpy_P(alphaBuffer, alphabets + counter, 1); //read each byte by adding the counter value to const pointer (alphabets++ won't work)
+  Serial.println((char) *alphaBuffer); //print the read byte as char
+  counter++; //increment counter
 
   if(counter == 25) { //reset and start reading from the beginning again
     counter = 0;
