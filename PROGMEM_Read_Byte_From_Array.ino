@@ -17,25 +17,25 @@ const uint8_t alphabets[] PROGMEM = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'
                                      'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
                                      'W', 'X', 'Y', 'Z', 0x00};
                                      
-uint8_t* alphaBuffer = new uint8_t; //a single char pointer
+uint8_t* alphaPointer = new uint8_t; //a single char pointer
 
 void setup() {
   Serial.begin(115200);
   Serial.println();
-  memcpy_P(alphaBuffer, alphabets, 1); //determine the address of const string on PROGMEM
+  memcpy_P(alphaPointer, alphabets, 1); //determine the address of const string on PROGMEM
  }
 
 int counter = 0;
-uint8_t* alphaBufferBackup = alphaBuffer; //take a backup of the const pointer
+uint8_t* alphaPointerBackup = alphaPointer; //take a backup of the const pointer
 
 void loop() {
-  memcpy_P(alphaBuffer, alphabets + counter, 1); //read each byte by adding the counter value to const pointer (alphabets++ won't work)
-  Serial.println((char) *alphaBuffer); //print the read byte as char
+  memcpy_P(alphaPointer, alphabets + counter, 1); //read each byte by adding the counter value to const pointer
+  Serial.println((char) *alphaPointer); //print the read byte as char
   counter++; //increment counter
 
   if(counter == 25) { //reset and start reading from the beginning again
     counter = 0;
-    alphaBuffer = alphaBufferBackup; //restore the pointer
+    alphaPointer = alphaPointerBackup; //restore the pointer
   }
   delay(1000);
 }
